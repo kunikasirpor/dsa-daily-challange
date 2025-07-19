@@ -1,0 +1,25 @@
+from collections import defaultdict
+
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        # Sorting intervals
+        intervals.sort()
+        
+        seen = []
+        count = 0
+        
+        for interval in intervals:
+            if not seen:
+                seen.append(interval)
+            else:
+                last = seen[-1]
+                # Checking if current interval overlaps with the last one added
+                if interval[0] < last[1]:
+                    # Overlap exists — choose the one with smaller end time to keep
+                    if interval[1] < last[1]:
+                        seen[-1] = interval  # replace with current (smaller end)
+                    count += 1  # count as removal
+                else:
+                    seen.append(interval)
+        
+        return count
